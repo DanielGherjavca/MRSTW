@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Chat";
+    Layout = "~/Views/Shared/_Layout_Blank.cshtml";
+}
+
+@using System.Web.Optimization;
+<h2>Chat Room</h2>
+
+<div id="chatWindow" style="border: 1px solid #ccc; height: 400px; overflow-y: scroll;">
+    <!-- Chat messages will be appended here -->
+</div>
+
+<textarea id="messageInput" style="width: 100%; height: 50px;"></textarea>
+<button id="sendButton">Send</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.signalr/2.4.1/jquery.signalr.min.js"></script>
+
+<script>
+        $(function () {
+            var chat = $.connection.chatHub;
+
+            chat.client.addNewMessageToPage = function (user, message) {
+                $('#chatWindow').append('<div><strong>' + user + '</strong>: ' + message + '</div>');
+            };
+
+            $.connection.hub.start().done(function () {
+                console.log("SignalR connected");
+            });
+
+            $('#sendButton').click(function () {
+                var message = $('#messageInput').val();
+                var user = '@User.Identity.Name';
+                chat.server.sendMessage(user, message);
+                $('#messageInput').val('');
+            });
+        });
+</script>

@@ -1,0 +1,488 @@
+﻿
+
+@{
+    ViewBag.Title = "Chat";
+    var user = ViewBag.User;
+}
+
+<style>
+    	 
+
+		.chat{
+			margin-top: auto;
+			margin-bottom: auto;
+		}
+		.card{
+			border-radius: 15px !important;
+		}
+		.contacts_body{
+			overflow-y: auto;
+			white-space: nowrap;
+		}
+		.msg_card_body{
+			overflow-y: auto;
+		}
+		.card-header{
+			border-radius: 15px 15px 0 0 !important;
+			border-bottom: 0 !important;
+		}
+	 .card-footer{
+		border-radius: 0 0 15px 15px !important;
+			border-top: 0 !important;
+	}
+		.container{
+			align-content: center;
+		}
+		.search{
+			border-radius: 15px 0 0 15px !important;
+			background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color:white !important;
+		}
+		.search:focus{
+		     box-shadow:none !important;
+           outline:0px !important;
+		}
+		.type_msg{
+			background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color:white !important;
+			height: 60px !important;
+			overflow-y: auto;
+		}
+			.type_msg:focus{
+		     box-shadow:none !important;
+           outline:0px !important;
+		}
+		.attach_btn{
+	border-radius: 15px 0 0 15px !important;
+	background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color: white !important;
+			cursor: pointer;
+		}
+		.send_btn{
+	border-radius: 0 15px 15px 0 !important;
+	background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color: white !important;
+			cursor: pointer;
+		}
+		.search_btn{
+			border-radius: 0 15px 15px 0 !important;
+			background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color: white !important;
+			cursor: pointer;
+		}
+		.contacts{
+			list-style: none;
+			padding: 0;
+		}
+		.contacts li{
+			width: 100% !important;
+			padding: 5px 10px;
+			margin-bottom: 15px !important;
+		}
+	.active{
+        margin-left : 10px;
+			background-color: rgba(0,0,0,0.3);
+	}
+    .nav > li:hover {
+        background-color: rgba(0,0,0,0.1);
+    }
+		.user_img{
+			height: 70px;
+			width: 70px;
+			border:1.5px solid #f5f6fa;
+
+		}
+		.user_img_msg{
+			height: 40px;
+			width: 40px;
+			border:1.5px solid #f5f6fa;
+
+		}
+	.img_cont{
+			position: relative;
+			height: 70px;
+			width: 70px;
+	}
+	.img_cont_msg{
+			height: 40px;
+			width: 40px;
+	}
+	.online_icon{
+		position: absolute;
+		height: 15px;
+		width:15px;
+		background-color: #4cd137;
+		border-radius: 50%;
+		bottom: 0.2em;
+		right: 0.4em;
+		border:1.5px solid white;
+	}
+	.offline{
+		background-color: #c23616 !important;
+	}
+	.user_info{
+		margin-top: auto;
+		margin-bottom: auto;
+		margin-left: 15px;
+	}
+	.user_info span{
+		font-size: 20px;
+		color: white;
+	}
+	.user_info p{
+	font-size: 10px;
+	color: rgba(255,255,255,0.6);
+	}
+	.video_cam{
+		margin-left: 50px;
+		margin-top: 5px;
+	}
+	.video_cam span{
+		color: white;
+		font-size: 20px;
+		cursor: pointer;
+		margin-right: 20px;
+	}
+    .msg_cotainer {
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 10px;
+        border-radius: 25px;
+        background-color: #205763;
+        padding: 10px;
+        position: relative;
+    }
+    .msg_cotainer_send {
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-right: 10px;
+        border-radius: 25px;
+        background-color: #579665;
+        padding: 10px;
+        position: relative;
+    }
+	.msg_time{
+		position: absolute;
+		left: 0;
+		bottom: -15px;
+		color: rgba(255,255,255,0.5);
+		font-size: 10px;
+	}
+	.msg_time_send{
+		position: absolute;
+		right:0;
+		bottom: -15px;
+		color: rgba(255,255,255,0.5);
+		font-size: 10px;
+	}
+	.msg_head{
+		position: relative;
+	}
+	#action_menu_btn{
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		color: white;
+		cursor: pointer;
+		font-size: 20px;
+	}
+	.action_menu{
+		z-index: 1;
+		position: absolute;
+		padding: 15px 0;
+		background-color: rgba(0,0,0,0.5);
+		color: white;
+		border-radius: 15px;
+		top: 30px;
+		right: 15px;
+		display: none;
+	}
+	.action_menu ul{
+		list-style: none;
+		padding: 0;
+	margin: 0;
+	}
+	.action_menu ul li{
+		width: 100%;
+		padding: 10px 15px;
+		margin-bottom: 5px;
+	}
+	.action_menu ul li i{
+		padding-right: 10px;
+
+	}
+	.action_menu ul li:hover{
+		cursor: pointer;
+	}
+ 
+</style>
+ 
+<body>
+    <div class="container-fluid h-100">
+        <div class="row justify-content-center h-100">
+            <div style="max-width:100%;width:100%;">
+                <div style="height:100%" class="card">
+                    <div class="card-header msg_head">
+                        <div class="d-flex bd-highlight">
+                            <div class="img_cont">
+                                @if (user != null) { 
+
+                                //<img src="@user.Imageurl" class="rounded-circle user_img">
+                                    <img src="https://www.gravatar.com/avatar/d522537123bae3faaaedb7fcd8e6c565?d=identicon&s=150" class="rounded-circle user_img">
+                                }
+                            </div>
+                            <div class="user_info">
+                                <span>Managers Group</span>
+                            </div>
+                            <div class="video_cam">
+                                <span><i class="fas fa-video"></i></span>
+                                <span><i class="fas fa-phone"></i></span>
+                            </div>
+                        </div>
+                        <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
+                        <div class="action_menu">
+                            <ul>
+                                <li><i class="fas fa-user-circle"></i> View profile</li>
+                                <li><i class="fas fa-users"></i> Add to close friends</li>
+                                <li><i class="fas fa-plus"></i> Add to group</li>
+                                <li><i class="fas fa-ban"></i> Block</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body msg_card_body">
+                        <div class="d-flex justify-content-start mb-4">
+                            <div class="img_cont_msg">
+                                <img src="https://www.gravatar.com/avatar/d522537123bae3faaaedb7fcd8e6c565?d=identicon&s=150" class="rounded-circle user_img_msg">
+                            </div>
+                            <div class="msg_cotainer">
+                                Hi, how are you Gregory?
+                                <span class="msg_time">8:40 AM, Today</span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mb-4">
+                            <div class="msg_cotainer_send">
+                                Hi Khalid i am good tnx how about you?
+                                <span class="msg_time_send">8:55 AM, Today</span>
+                            </div>
+                            <div class="img_cont_msg">
+                                @if (user != null)
+                                {
+
+                                    <img src="@user.Imageurl" class="rounded-circle user_img_msg">
+                                }
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-start mb-4">
+                            <div class="img_cont_msg">
+                                <img src="https://www.gravatar.com/avatar/d522537123bae3faaaedb7fcd8e6c565?d=identicon&s=150" class="rounded-circle user_img_msg">
+                            </div>
+                            <div class="msg_cotainer">
+                                I am good too, thank you for your chat template
+                                <span class="msg_time">9:00 AM, Today</span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mb-4">
+                            <div class="msg_cotainer_send">
+                                You are welcome
+                                <span class="msg_time_send">9:05 AM, Today</span>
+                            </div>
+                            <div class="img_cont_msg">
+                                @if (user != null)
+                                {
+
+                                    <img src="@user.Imageurl" class="rounded-circle user_img_msg">
+                                }
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-start mb-4">
+                            <div class="img_cont_msg">
+                                <img src="https://www.gravatar.com/avatar/d522537123bdsae3faaaedb7fcd8e6c565?d=identicon&s=150" class="rounded-circle user_img_msg">
+                            </div>
+                            <div class="msg_cotainer">
+                                I am looking for your next templates
+                                <span class="msg_time">9:07 AM, Today</span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mb-4">
+                            <div class="msg_cotainer_send">
+                                Ok, thank you have a good day
+                                <span class="msg_time_send">9:10 AM, Today</span>
+                            </div>
+                            <div class="img_cont_msg">
+                                @if (user != null)
+                                {
+
+                                    <img src="@user.Imageurl" class="rounded-circle user_img_msg">
+                                }
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-start mb-4">
+                            <div class="img_cont_msg">
+                                <img src="https://www.gravatar.com/avatar/d522537123bdsae3faaaedb7fcd8e6c565?d=identicon&s=150" class="rounded-circle user_img_msg">
+                            </div>
+                            <div class="msg_cotainer">
+                                Bye, see you
+                                <span class="msg_time">9:12 AM, Today</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <span class="input-group-text attach_btn">
+                                    <svg width="1em" style="fill:white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M364.2 83.8c-24.4-24.4-64-24.4-88.4 0l-184 184c-42.1 42.1-42.1 110.3 0 152.4s110.3 42.1 152.4 0l152-152c10.9-10.9 28.7-10.9 39.6 0s10.9 28.7 0 39.6l-152 152c-64 64-167.6 64-231.6 0s-64-167.6 0-231.6l184-184c46.3-46.3 121.3-46.3 167.6 0s46.3 121.3 0 167.6l-176 176c-28.6 28.6-75 28.6-103.6 0s-28.6-75 0-103.6l144-144c10.9-10.9 28.7-10.9 39.6 0s10.9 28.7 0 39.6l-144 144c-6.7 6.7-6.7 17.7 0 24.4s17.7 6.7 24.4 0l176-176c24.4-24.4 24.4-64 0-88.4z" /></svg>
+                                </span>
+                            </div>
+                            <textarea name="" class="form-control type_msg" placeholder="Type your message..."></textarea>
+                            <div class="input-group-append">
+                                <span class="input-group-text send_btn">
+                                    <svg width="1em" style="fill:white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+     <path d="M429.6 92.1c4.9-11.9 2.1-25.6-7-34.7s-22.8-11.9-34.7-7l-352 144c-14.2 5.8-22.2 20.8-19.3 35.8s16.1 25.8 31.4 25.8H224V432c0 15.3 10.8 28.4 25.8 31.4s30-5.1 35.8-19.3l144-352z" /></svg>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+@*
+
+<div class="--dark-theme" id="chat">
+    <div class="chat__conversation-board">
+        <div class="chat__conversation-board__message-container">
+            <div class="chat__conversation-board__message__person">
+                <div class="chat__conversation-board__message__person__avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Monika Figi"></div><span class="chat__conversation-board__message__person__nickname">Monika Figi</span>
+            </div>
+            <div class="chat__conversation-board__message__context">
+                <div class="chat__conversation-board__message__bubble"> <span>Somewhere stored deep, deep in my memory banks is the phrase "It really whips the llama's ass".</span></div>
+            </div>
+            <div class="chat__conversation-board__message__options">
+                <button class="btn-icon chat__conversation-board__message__option-button option-item emoji-button">
+                    <svg class="feather feather-smile sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                </button>
+                <button class="btn-icon chat__conversation-board__message__option-button option-item more-button">
+                    <svg class="feather feather-more-horizontal sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="19" cy="12" r="1"></circle>
+                        <circle cx="5" cy="12" r="1"></circle>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="chat__conversation-board__message-container">
+            <div class="chat__conversation-board__message__person">
+                <div class="chat__conversation-board__message__person__avatar"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Thomas Rogh"></div><span class="chat__conversation-board__message__person__nickname">Thomas Rogh</span>
+            </div>
+            <div class="chat__conversation-board__message__context">
+                <div class="chat__conversation-board__message__bubble"> <span>Think the guy that did the voice has a Twitter?</span></div>
+            </div>
+            <div class="chat__conversation-board__message__options">
+                <button class="btn-icon chat__conversation-board__message__option-button option-item emoji-button">
+                    <svg class="feather feather-smile sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                </button>
+                <button class="btn-icon chat__conversation-board__message__option-button option-item more-button">
+                    <svg class="feather feather-more-horizontal sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="19" cy="12" r="1"></circle>
+                        <circle cx="5" cy="12" r="1"></circle>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="chat__conversation-board__message-container">
+            <div class="chat__conversation-board__message__person">
+                <div class="chat__conversation-board__message__person__avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Monika Figi"></div><span class="chat__conversation-board__message__person__nickname">Monika Figi</span>
+            </div>
+            <div class="chat__conversation-board__message__context">
+                <div class="chat__conversation-board__message__bubble"> <span>WE MUST FIND HIM!!</span></div>
+                <div class="chat__conversation-board__message__bubble"> <span>Wait ...</span></div>
+            </div>
+            <div class="chat__conversation-board__message__options">
+                <button class="btn-icon chat__conversation-board__message__option-button option-item emoji-button">
+                    <svg class="feather feather-smile sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                </button>
+                <button class="btn-icon chat__conversation-board__message__option-button option-item more-button">
+                    <svg class="feather feather-more-horizontal sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="19" cy="12" r="1"></circle>
+                        <circle cx="5" cy="12" r="1"></circle>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="chat__conversation-board__message-container reversed">
+            <div class="chat__conversation-board__message__person">
+                <div class="chat__conversation-board__message__person__avatar"><img src="https://randomuser.me/api/portraits/men/9.jpg" alt="Dennis Mikle"></div><span class="chat__conversation-board__message__person__nickname">Dennis Mikle</span>
+            </div>
+            <div class="chat__conversation-board__message__context">
+                <div class="chat__conversation-board__message__bubble"> <span>Winamp's still an essential.</span></div>
+            </div>
+            <div class="chat__conversation-board__message__options">
+                <button class="btn-icon chat__conversation-board__message__option-button option-item emoji-button">
+                    <svg class="feather feather-smile sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                </button>
+                <button class="btn-icon chat__conversation-board__message__option-button option-item more-button">
+                    <svg class="feather feather-more-horizontal sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="19" cy="12" r="1"></circle>
+                        <circle cx="5" cy="12" r="1"></circle>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="chat__conversation-panel">
+        <div class="chat__conversation-panel__container">
+            <button class="chat__conversation-panel__button panel-item btn-icon add-file-button">
+                <svg class="feather feather-plus sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+            </button>
+            <button class="chat__conversation-panel__button panel-item btn-icon emoji-button">
+                <svg class="feather feather-smile sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                    <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                    <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                </svg>
+            </button>
+            <input class="chat__conversation-panel__input panel-item" placeholder="Type a message...">
+            <button class="chat__conversation-panel__button panel-item btn-icon send-message-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-reactid="1036">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+*@

@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout_Blank.cshtml";
+}
+
+@using System.Web.Optimization;
+@model ChatFlow.Web.ViewModels.RegisterViewModel
+
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="row w-100 m-0">
+            <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+                <div class="card col-lg-4 mx-auto">
+                    <div class="card-body px-5 py-5">
+                        <h3 class="card-title text-left mb-3">Register</h3>
+
+                        @Html.ValidationSummary(true)
+                        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @id = "RegisterForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
+                                <div class="col-md-10">
+                                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                <div class="col-md-10">
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                                <div class="col-md-10">
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <input type="hidden" id="Imageurl" name="Imageurl" />
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-block enter-btn">Register</button>
+                            </div>
+
+                            <p class="sign-up text-center">Already have an Account?<a href="@Url.Action("Login", "Account")"> Sign In</a></p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/spark-md5/3.0.0/spark-md5.min.js"></script>
+
+<script>
+    function generateAvatar(email) {
+        var hash = SparkMD5.hash(email.trim()); // Generate hash value
+        return 'https://www.gravatar.com/avatar/' + hash + '?d=identicon&s=150'; // Generate Gravatar URL
+    }
+
+    document.querySelector("#RegisterForm").addEventListener("submit", function (e) {
+        // Get the email value
+        var email = document.getElementById('Email').value.trim();
+
+        // Generate avatar URL
+        var avatarUrl = generateAvatar(email);
+
+        // Set the value of the hidden input field
+        document.getElementById('Imageurl').value = avatarUrl;
+
+        // Allow the form to submit
+    });
+</script>

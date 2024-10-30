@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "_Search";
+    var user = ViewBag.User;
+}
+
+<style>
+
+    .search_form input:not(:focus) ~ div,
+    .search_form input:placeholder-shown ~ div {
+        display: none;
+    }
+
+</style>
+<form class="search_form nav-link mt-2 mt-md-0 d-none d-lg-flex search" id="searchForm">
+    <input type="text" class="w-100 form-control" placeholder="Search collaborators" id="searchInput">
+    <div style="position:absolute;width:100%;left:0;right:0;" class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list show" id="searchResults">
+        <!-- Rezultatele căutării vor fi inserate aici -->
+    </div>
+</form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#searchInput').on('input', function () {
+                console.log("aici")
+                var searchTerm = $(this).val();
+                if (searchTerm.length) { 
+                    $.ajax({
+                        url: '@Url.Action("getUsers", "SearchUsers")',
+                        data: { term: searchTerm },
+                        success: function (data) {
+                            var resultsDiv = $('#searchResults');
+                            resultsDiv.empty(); // Golește rezultatele anterioare
+
+                            if (data.length > 0) {
+                                data.forEach(function (user) {
+                                    var userItem = `<a style="display:flex;align-items:center;padding:1rem" class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <img src="${user.Imageurl}" alt="image" class="rounded-circle profile-pic">
+                                        </div>
+                                        <div style="display:flex;" class="preview-item-content">
+                                            <p class="preview-subject ellipsis mb-1">${user.Username}</p>
+                                        </div>
+                                    </a>`;
+                                    resultsDiv.append(userItem);
+                                });
+                            } else {
+                                resultsDiv.append('<p style="display:flex;margin:0;justify-content:center;" class="dropdown-item preview-item">No users found</p>');
+                            }
+                        }
+                    });
+                } else {
+                    $('#searchResults').empty(); // Golește rezultatele dacă nu sunt destule caractere
+                }
+            });
+        });
+    </script>
